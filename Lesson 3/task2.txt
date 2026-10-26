@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+
+    const int width_height = 10;
+    const int width_time = 10;
+
+    cout << setw(width_height) << left << "Высота (м)"
+              << " | "
+              << setw(width_time) << left << "Время (с)" << '\n';
+
+    cout << setfill('-') << setw(width_height + width_time + 3) << "" << '\n';
+    cout << setfill(' ');
+    cout << fixed << setprecision(2);
+
+    double max = 0.0;
+    double v0 = 50.0;
+    double g = 9.8;
+    double h;
+    int dt = 1;
+    int tm;
+    vector<double> times;
+    vector<double> heights;
+    for (int t = 0.0; t<=1000 ; t += dt){
+        h = v0 * t - 0.5 * g * t * t;
+        if (h > max){max = h; tm=t;}
+        if (h < 0){
+            break;
+        } else{
+            cout << setw(width_height) << left << h;
+            cout << " | ";
+            cout << setw(width_time) << left << t << '\n';
+        }
+
+    }
+    cout << "Max height is "
+         <<max
+         <<" at time "
+         <<tm;
+    return 0;
+}

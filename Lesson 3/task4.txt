@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+#include <numeric>
+
+using namespace std;
+
+int main() {
+    double v0 = 20.0;
+    double g = 9.81;
+    double dt = 0.5;
+    double t_max = 5.0;
+
+    vector<double> times;
+    vector<double> velocities;
+
+    for (double t = 0.0; t <= t_max; t += dt) {
+        double v = v0 - g * t;
+        if (v < -1.0) {break;};
+
+        times.push_back(t);
+        velocities.push_back(v);
+    }
+
+    if (velocities.empty()) {
+        cout << "Вектор скоростей пуст!" << endl;
+        return 1;
+    }
+
+    double sum = accumulate(velocities.begin(), velocities.end(), 0.0);
+    double medium = sum / velocities.size();
+    cout << fixed << setprecision(2);
+    cout << "Сумма скоростей: " << sum << " м/с" << endl;
+    cout << "Количество шагов: " << velocities.size() << endl;
+    cout << "Средняя скорость: " << medium << " м/с" << endl;
+
+
+    double full_time = times.back() - times.front(); // Общее время полета
+    double displacement = v0 * full_time - 0.5 * g * full_time * full_time;
+    double phi_medium = displacement / full_time;
+
+    cout << "Интегральное среднее (физическое): " << phi_medium << " м/с" << endl;
+
+    return 0;
+}
